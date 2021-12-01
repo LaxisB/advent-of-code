@@ -1,50 +1,49 @@
 defmodule AdventOfCode.Year2021.Day01 do
   def part1(args) do
-    prepare_input(args)
-    |> List.foldl({nil, 0}, &aggregate/2)
-    |> elem(1)
+    [h | t] = prepare_input(args)
+    run(0, h, t)
   end
 
   def part2(args) do
     items = prepare_input(args)
 
+    # pre-calc first sum
     thruple_sum =
       Enum.slice(items, 0..2)
       |> Enum.sum()
 
-    aggregate_sliding_window(0, thruple_sum, tl(items))
+    run_sliding(0, thruple_sum, tl(items))
   end
 
-  defp aggregate(x, {last, count}) do
-    case {x, last} do
-      {_, nil} -> {x, 0}
-      {x, y} when x > y -> {x, count + 1}
-      _ -> {x, count}
+  defp run(count, _, rem) when length(rem) < 1, do: count
+
+  defp run(count, last_value, [head | tail] = _rem) do
+    case head > last_value do
+      true -> run(count + 1, head, tail)
+      false -> run(count, head, tail)
     end
   end
 
-  defp aggregate_sliding_window(count, _, rem) when length(rem) < 3, do: count
+  # stop when we can't build a full 3-item sum anymore
+  defp run_sliding(count, _, rem) when length(rem) < 3, do: count
 
-  defp aggregate_sliding_window(count, last_value, rem) do
+  defp run_sliding(count, last_value, rem) do
     thruple_sum = Enum.slice(rem, 0..2) |> Enum.sum()
 
     case thruple_sum > last_value do
-      true -> aggregate_sliding_window(count + 1, thruple_sum, tl(rem))
-      false -> aggregate_sliding_window(count, thruple_sum, tl(rem))
+      true -> run_sliding(count + 1, thruple_sum, tl(rem))
+      false -> run_sliding(count, thruple_sum, tl(rem))
     end
   end
 
+  @doc """
+  convert a newline delimited string of integers to an int list
+  """
   defp prepare_input(string) when is_binary(string) do
     String.split(string)
-    |> Stream.map(&string_to_int(&1))
+    |> Stream.map(&Integer.parse(&1, 10))
     |> Stream.filter(&(&1 != nil))
+    |> Stream.map(&elem(&1, 0))
     |> Enum.to_list()
-  end
-
-  defp string_to_int(part) do
-    case Integer.parse(part, 10) do
-      {int, _rem} -> int
-      :error -> nil
-    end
   end
 end
