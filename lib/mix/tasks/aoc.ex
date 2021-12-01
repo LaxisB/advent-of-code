@@ -3,12 +3,20 @@ defmodule Mix.Tasks.Aoc do
 
   @moduledoc """
   runs  the script for the advent of code for the given day and year
+
+      mix aoc [--day DAY] [--year YEAR] [--part PART]
+
+  A `--day` or `-d` option can be given to specify a specific day to run. If not set, it will default to:
+
+   - the current day during december
+   - the 1st otherwise
+
+  A `--year` or `-y` option can be used to run years other than the current one.any()
+
+  A `--part` or `-p` option can be used to reduce the parts to run to a specific one. By default both parts are executed
   """
 
-  @shortdoc """
-   --day <num> / -d<num>    - specifies the day to run
-   --year <num> / -y<num>   - year to run
-  """
+  @shortdoc "Run a given Advent of Code problem"
 
   @impl Mix.Task
   def run(args) do
