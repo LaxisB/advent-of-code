@@ -10,9 +10,8 @@ forked from https://github.com/mhanberg/advent-of-code-elixir-starter
 
 ## Usage
 
-1. Fill in the tests with the example solutions.
-2. Write your implementation (you can copy the template from day_00.ex and adjust it)
-3. Fill in the final problem inputs into the mix task and run `mix aoc --day <day> --part <part1>`!
+1. Write your implementation (you can copy the template from day_00.ex and adjust it)
+2. run `mix aoc` with the current day and year to get your answers
 
 
 `mix aoc` automatically defaults to the curreny year and day (only if in december). so during AOC, you can just call `mix aoc` to automatically run both problem parts of the day
