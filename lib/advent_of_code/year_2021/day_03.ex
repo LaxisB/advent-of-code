@@ -18,8 +18,8 @@ defmodule AdventOfCode.Year2021.Day03 do
   def part2(args) do
     {items, _lines, _cols} = parse_args(args)
 
-    oxy = incremental_filter(items, &max/2, "1", 0)
-    co2 = incremental_filter(items, &min/2, "0", 0)
+    oxy = calculate_oxygen(items)
+    co2 = calculate_co2(items)
 
     oxy_int = String.to_integer(oxy, 2)
     co2_int = String.to_integer(co2, 2)
@@ -27,36 +27,24 @@ defmodule AdventOfCode.Year2021.Day03 do
     oxy_int * co2_int
   end
 
-  def calculate_ogygen(items), do: incremental_filter(items, &max/2, "1")
+  def calculate_oxygen(items), do: reduce(items, "", fn x -> if x >= 0, do: "1", else: "0" end)
 
-  def calculate_co2(items), do: incremental_filter(items, &min/2, "0")
+  # remember that we need least often
+  def calculate_co2(items), do: reduce(items, "", fn x -> if x >= 0, do: "0", else: "1" end)
 
-  def incremental_filter(items, selector, default),
-    do: incremental_filter(items, selector, default, 0)
+  def reduce(items, _, _) when length(items) < 2, do: hd(items)
 
-  def incremental_filter(items, _, _, _) when length(items) == 1, do: hd(items)
+  def reduce(items, mask, sum_to_mask) do
+    offset = String.length(mask)
 
-  def incremental_filter(items, _, _, _) when length(items) == 0,
-    do: raise("should've stopped earlier")
+    bit_sum =
+      Enum.reduce(items, 0, fn x, agg ->
+        if String.at(x, offset) == "1", do: agg + 1, else: agg - 1
+      end)
 
-  def incremental_filter(items, selector, default, pos) do
-    # calculate which bit value were interested in
-    [f1 | [f2]] =
-      items
-      |> Enum.map(&String.at(&1, pos))
-      |> Enum.frequencies()
-      |> Map.to_list()
-
-    bit_condition =
-      cond do
-        elem(f1, 1) == elem(f2, 1) -> default
-        elem(f1, 1) == selector.(elem(f1, 1), elem(f2, 1)) -> elem(f1, 0)
-        true -> elem(f2, 0)
-      end
-
-    filtered = Enum.filter(items, &(String.at(&1, pos) == bit_condition))
-
-    incremental_filter(filtered, selector, default, pos + 1)
+    new_mask = mask <> sum_to_mask.(bit_sum)
+    new_items = Enum.filter(items, &String.starts_with?(&1, new_mask))
+    reduce(new_items, new_mask, sum_to_mask)
   end
 
   defp binary_mode(list) do
@@ -68,7 +56,6 @@ defmodule AdventOfCode.Year2021.Day03 do
     end
   end
 
-  @spec parse_args(String.t()) :: {list(integer()), integer(), integer()}
   defp parse_args(string) do
     lines =
       string
@@ -80,7 +67,6 @@ defmodule AdventOfCode.Year2021.Day03 do
     {lines, Enum.count(lines), cols}
   end
 
-  @spec rotate(list(String.t()), integer, integer) :: list(list(integer))
   defp rotate(lines, rows, cols) do
     items =
       lines
