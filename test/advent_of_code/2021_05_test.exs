@@ -1,4 +1,4 @@
-defmodule AdventOfCode.Year2021.Day04.Test do
+defmodule AdventOfCode.Year2021.Day05.Test do
   use ExUnit.Case
   @input "0,9 -> 5,9
 8,0 -> 0,8
@@ -16,7 +16,6 @@ defmodule AdventOfCode.Year2021.Day04.Test do
     assert res == 5
   end
 
-  @skip
   test "part 2" do
     res = AdventOfCode.Year2021.Day05.part2(@input)
     assert res == 12
