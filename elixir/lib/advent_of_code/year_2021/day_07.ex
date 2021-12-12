@@ -13,8 +13,7 @@ defmodule AdventOfCode.Year2021.Day07 do
     {min, max} = Enum.min_max(positions)
 
     min..max
-    |> Enum.map(&Task.async(fn -> cb.(positions, &1) end))
-    |> Task.await_many()
+    |> Enum.map(&cb.(positions, &1))
     |> Enum.min()
   end
 
