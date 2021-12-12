@@ -21,12 +21,10 @@ defmodule AdventOfCode.Year2021.Day04.Test do
  2  0 12  3  7"
 
   test "part 1" do
-    res = AdventOfCode.Year2021.Day04.part1(@input)
-    assert res == 4512
+    assert AdventOfCode.Year2021.Day04.part1(@input) == 4512
   end
 
   test "part 2" do
-    res = AdventOfCode.Year2021.Day04.part2(@input)
-    assert res == 1924
+    assert AdventOfCode.Year2021.Day04.part2(@input) == 1924
   end
 end

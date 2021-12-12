@@ -12,12 +12,10 @@ defmodule AdventOfCode.Year2021.Day05.Test do
 5,5 -> 8,2"
 
   test "part 1" do
-    res = AdventOfCode.Year2021.Day05.part1(@input)
-    assert res == 5
+    assert AdventOfCode.Year2021.Day05.part1(@input) == 5
   end
 
   test "part 2" do
-    res = AdventOfCode.Year2021.Day05.part2(@input)
-    assert res == 12
+    assert AdventOfCode.Year2021.Day05.part2(@input) == 12
   end
 end

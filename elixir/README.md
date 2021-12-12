@@ -23,7 +23,7 @@ forked from https://github.com/mhanberg/advent-of-code-elixir-starter
 this fork is has the automatic input gathering from the original repo hardwired.
 create the file `config/secret.exs` and paste the following code:
 ```elixir
-use Mix.Config
+import Config
 
 config :advent_of_code, AdventOfCode.Input,
   session_cookie: "<your session cookie"

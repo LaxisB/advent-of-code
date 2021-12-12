@@ -1,4 +1,5 @@
 defmodule AdventOfCode.Year2021.Day02 do
+  @doc "iterate over a list of movement and calculate the final position"
   def part1(args) do
     args
     |> parse_args
@@ -6,6 +7,7 @@ defmodule AdventOfCode.Year2021.Day02 do
     |> (fn {x, y} -> x * y end).()
   end
 
+  @doc "iterate over a list of movement and calculate the final position. measurements don't directly change the state"
   def part2(args) do
     args
     |> parse_args

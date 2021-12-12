@@ -1,9 +1,11 @@
 defmodule AdventOfCode.Year2021.Day01 do
+  @doc "find all measurements from the input that are an increase from the previous"
   def part1(args) do
     [h | t] = prepare_input(args)
     run(0, h, t)
   end
 
+  @doc "find all measurements that are an increase from the previous one using a sliding window using the sum of the last three measurements"
   def part2(args) do
     items = prepare_input(args)
 
@@ -41,9 +43,7 @@ defmodule AdventOfCode.Year2021.Day01 do
   """
   defp prepare_input(string) when is_binary(string) do
     String.split(string)
-    |> Stream.map(&Integer.parse(&1, 10))
-    |> Stream.filter(&(&1 != nil))
-    |> Stream.map(&elem(&1, 0))
+    |> Stream.map(&String.to_integer/1)
     |> Enum.to_list()
   end
 end

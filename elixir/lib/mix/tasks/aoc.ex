@@ -20,6 +20,8 @@ defmodule Mix.Tasks.Aoc do
 
   @impl Mix.Task
   def run(args) do
+    {:ok, _started} = Application.ensure_all_started(:advent_of_code)
+
     {options, _argv, _errors} =
       OptionParser.parse(args,
         aliases: [d: :day, y: :year, p: :part],
